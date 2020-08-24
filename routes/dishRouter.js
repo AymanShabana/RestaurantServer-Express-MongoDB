@@ -159,7 +159,7 @@ const sameId = (req,res,next) => {
                 next();
             }
             else{
-                var err = new Error('You are not authorized to delete this comment!');
+                var err = new Error('You are not authorized to modify this comment!');
                 err.status = 403;
                 return next(err);
             }
