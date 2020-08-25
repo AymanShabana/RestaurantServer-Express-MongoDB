@@ -8,6 +8,8 @@ const cors = require('./cors');
 var router = express.Router();
 router.use(bodyParser.json());
 
+var blackList = [];
+
 /* GET users listing. */
 router.get('/',cors.corsWithOptions, authenticate.verifyUser,authenticate.verifyAdmin, (req, res, next) => {
   User.find({})
@@ -62,7 +64,7 @@ router.post('/login', cors.corsWithOptions, passport.authenticate('local'),(req,
 });
 
 router.get('/logout',cors.corsWithOptions, (req,res) => {
-  if(req.session){
+  if(req.header.){
     req.session.destroy();
     res.clearCookie('session-id');
     res.redirect('/');
@@ -70,7 +72,7 @@ router.get('/logout',cors.corsWithOptions, (req,res) => {
   else{
     var err = new Error('Not logged in.');
     err.status = 403;
-    next(err);
+    res.end(err);
   }
 });
 
